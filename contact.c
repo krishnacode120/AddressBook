@@ -47,7 +47,7 @@ void listContacts(AddressBook *addressBook) {
             }
         }
     }
-    
+    // Display contacts
     if (addressBook->contactCount == 0) {
         printf("No contacts available.\n");
         return;
@@ -122,7 +122,7 @@ void createContact(AddressBook *addressBook) {
     strcpy(addressBook->contacts[index].phone, phone);
     strcpy(addressBook->contacts[index].email, email);
     addressBook->contactCount++;
-
+    // Save to file
     saveContactsToFile(addressBook);
     printf("✅ Contact added successfully!\n");
 }
@@ -140,7 +140,7 @@ void searchContact(AddressBook *addressBook) {
     printf("Enter value: ");
     fgets(value, sizeof(value), stdin);
     value[strcspn(value, "\n")] = 0;
-
+    // Search logic
     int found = findContact(addressBook, value, choice, matches, &matchCount);
 
     if (found == -1) {
@@ -205,7 +205,7 @@ void editContact(AddressBook *addressBook) {
         } while (selection < 1 || selection > matchCount);
         found = matches[selection - 1];
     }
-
+    // Display current details and ask for new values
     printf("\nEditing Contact:\n%s | %s | %s\n",
            addressBook->contacts[found].name,
            addressBook->contacts[found].phone,

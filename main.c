@@ -20,7 +20,7 @@ int main() {
     int choice;
     AddressBook addressBook; 
     initialize(&addressBook); // Initialize the address book
-    // Load existing contacts from file
+    // Main loop
     do {
         printf("\nAddress Book Menu:\n");
         printf("1. Create contact\n");
