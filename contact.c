@@ -278,7 +278,7 @@ void deleteContact(AddressBook *addressBook) {
     int choice;
     char value[50];
     int matches[MAX_MATCHES], matchCount;
-
+    // Check if address book is empty
     if (addressBook->contactCount == 0) {
         printf("⚠️ No contacts to delete.\n");
         return;
@@ -297,7 +297,7 @@ void deleteContact(AddressBook *addressBook) {
         printf("❌ Contact not found.\n");
         return;
     }
-
+    // If multiple matches, ask user to select
     if (matchCount > 1) {
         printf("Multiple contacts found:\n");
         for (int i = 0; i < matchCount; i++) {
@@ -317,7 +317,7 @@ void deleteContact(AddressBook *addressBook) {
         } while (selection < 1 || selection > matchCount);
         found = matches[selection - 1];
     }
-
+    // Confirm deletion
     printf("Deleting Contact: %s | %s | %s\n",
            addressBook->contacts[found].name,
            addressBook->contacts[found].phone,
