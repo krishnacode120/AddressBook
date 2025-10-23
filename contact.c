@@ -1,3 +1,8 @@
+/*This file implements functions for managing contacts in an address book,
+  including creating, searching, editing, deleting, and listing contacts.
+  It also includes validation functions for phone numbers and email addresses.
+  The contacts are saved to and loaded from a file to ensure data persistence.
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,12 +13,13 @@
 #define MAX_MATCHES 100
 
 
-//Core Functions
+// Function Implementations
 void initialize(AddressBook *addressBook) {
     addressBook->contactCount = 0;
     loadContactsFromFile(addressBook); 
 }
 
+// List contacts with sorting options
 void listContacts(AddressBook *addressBook) {
     printf("Select sort criteria:\n");
     printf("1. Sort by name\n");
@@ -23,7 +29,7 @@ void listContacts(AddressBook *addressBook) {
     int sortChoice;
     scanf("%d", &sortChoice);
     getchar();
-    // Simple bubble sort for demonstration
+    // Simple bubble sort based on choice
     for (int i = 0; i < addressBook->contactCount - 1; i++) {
         for (int j = 0; j < addressBook->contactCount - i - 1; j++) {
             int cmp = 0;
@@ -58,6 +64,7 @@ void listContacts(AddressBook *addressBook) {
     printf("--------------------------\n");
 }
 
+// Create a new contact
 void createContact(AddressBook *addressBook) {
     if (addressBook->contactCount >= MAX_CONTACTS) {
         printf("❌ Address book is full!\n");
@@ -120,6 +127,7 @@ void createContact(AddressBook *addressBook) {
     printf("✅ Contact added successfully!\n");
 }
 
+// Search for a contact
 void searchContact(AddressBook *addressBook) {
     int choice;
     char value[50];
@@ -158,12 +166,12 @@ void searchContact(AddressBook *addressBook) {
         }
     }
 }
-
+// Edit an existing contact
 void editContact(AddressBook *addressBook) {
     int choice;
     char value[50], newValue[50];
     int matches[MAX_MATCHES], matchCount;
-
+    
     printf("Edit by:\n1. Name\n2. Phone\n3. Email\nEnter choice: ");
     scanf("%d", &choice);
     getchar();
@@ -177,7 +185,7 @@ void editContact(AddressBook *addressBook) {
         printf("❌ Contact not found.\n");
         return;
     }
-
+    // If multiple matches, ask user to select
     if (matchCount > 1) {
         printf("Multiple contacts found:\n");
         for (int i = 0; i < matchCount; i++) {
@@ -207,7 +215,7 @@ void editContact(AddressBook *addressBook) {
     int editChoice;
     scanf("%d", &editChoice);
     getchar();
-
+        // Input validation loop
     int valid = 0;
     switch (editChoice) {
         case 1:
@@ -261,11 +269,11 @@ void editContact(AddressBook *addressBook) {
             printf("❌ Invalid choice.\n");
             return;
     }
-
+    // Save changes
     saveContactsToFile(addressBook);
     printf("✅ Contact updated successfully!\n");
 }
-
+// Delete a contact
 void deleteContact(AddressBook *addressBook) {
     int choice;
     char value[50];
@@ -333,14 +341,14 @@ void deleteContact(AddressBook *addressBook) {
     saveContactsToFile(addressBook);
     printf("✅ Contact deleted successfully!\n");
 }
-
+// Save and exit
 void saveAndExit(AddressBook *addressBook) {
     saveContactsToFile(addressBook);
     printf("All changes saved. Exiting...\n");
     exit(EXIT_SUCCESS);
 }
 
-//Helper Functions
+// Validation and utility functions
 int isValidPhone(const char *phone) {
     if (strlen(phone) != 10) return 0;
     for (int i = 0; i < 10; i++) {
@@ -348,7 +356,7 @@ int isValidPhone(const char *phone) {
     }
     return 1;
 }
-
+// Check for duplicate phone number
 int isDuplicatePhone(AddressBook *ab, const char *phone, int excludeIndex) {
     for (int i = 0; i < ab->contactCount; i++) {
         if (i != excludeIndex && strcmp(ab->contacts[i].phone, phone) == 0)
@@ -356,13 +364,13 @@ int isDuplicatePhone(AddressBook *ab, const char *phone, int excludeIndex) {
     }
     return 0;
 }
-
+// Simple email validation
 int isValidEmail(const char *email) {
     char *at = strchr(email, '@');
     char *dot = strstr(email, ".com");
     return at && dot && at < dot;
 }
-
+// Check for duplicate email
 int isDuplicateEmail(AddressBook *ab, const char *email, int excludeIndex) {
     for (int i = 0; i < ab->contactCount; i++) {
         if (i != excludeIndex && strcmp(ab->contacts[i].email, email) == 0)

@@ -1,3 +1,18 @@
+/* main.c - Address Book Application
+-------------------------------------------------------
+description:
+   This program allows users to create, search, edit, delete, and list contacts
+   in an address book. Contacts are saved to a file upon exiting the application.
+   The program uses functions defined in contact.h for contact management.
+
+sample input:
+   User selects options from the menu to manage contacts.
+sample output:
+   Displays menu options and results of contact operations.
+
+author: [krishnamoorthy T]
+date: [2025-10-23]
+*/
 #include <stdio.h>
 #include "contact.h"
 
@@ -5,7 +20,7 @@ int main() {
     int choice;
     AddressBook addressBook; 
     initialize(&addressBook); // Initialize the address book
-
+    // Load existing contacts from file
     do {
         printf("\nAddress Book Menu:\n");
         printf("1. Create contact\n");
@@ -16,7 +31,7 @@ int main() {
         printf("6. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
-        
+ 
         switch (choice) {
             case 1:
                 createContact(&addressBook);
